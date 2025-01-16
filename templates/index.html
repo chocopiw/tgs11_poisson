@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Pengunjung Restoran</title>
+    <!-- Hubungkan dengan style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Simulasi Jumlah Pengunjung Restoran di Jam Sibuk</h1>
+        <form method="post">
+            <label for="lambda">Rata-rata Pengunjung (λ):</label>
+            <input type="number" id="lambda" name="lambda" step="0.01" placeholder="Masukkan nilai λ" required>
+
+            <label for="max_k">Jumlah Maksimum Pengunjung (k):</label>
+            <input type="number" id="max_k" name="max_k" placeholder="Masukkan nilai k" required>
+
+            <button type="submit">Hitung</button>
+        </form>
+
+        {% if probabilities %}
+        <div class="results">
+            <h2>Hasil Perhitungan</h2>
+            <p>Rata-rata Pengunjung (λ): <strong>{{ lmbda }}</strong></p>
+            <p>Jumlah Maksimum Pengunjung (k): <strong>{{ max_k }}</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jumlah Pengunjung (k)</th>
+                        <th>Peluang</th>
+                        <th>Persentase</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in probabilities %}
+                    <tr>
+                        <td>{{ row.k }}</td>
+                        <td>{{ row.probability|round(4) }}</td>
+                        <td>{{ row.percentage|round(2) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
